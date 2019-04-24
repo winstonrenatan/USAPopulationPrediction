@@ -23,7 +23,7 @@ On Windows 10, open the command prompt and go to the folder you want and type th
 - Download the files on folder "LinearRegression".
 - Open and run "PredictorProgram.py", this will produce the file "USAPopulationStart.csv"<br>
   "USAPopDecit.csv" will contain the prediction result together with data that will be used for calculating the errors.<br>
-  ![RunAndGet]()<br>
+  ![RunAndGet](https://github.com/winstonrenatan/USAPopulationPrediction/blob/master/PicturesDocumentation/RunAndGet.gif)<br>
 - Open "USAPopDeci.csv" using the floor function manually change the new result column to obtain whole number(integer).<br>
 - Rename the file to "USAPopDeciEdit.csv" so it can be used in other program.<br>
   ![RenameFile](https://github.com/winstonrenatan/USAPopulationPrediction/blob/master/PicturesDocumentation/RenameFile.gif)<br>
