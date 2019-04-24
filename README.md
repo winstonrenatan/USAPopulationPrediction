@@ -22,7 +22,7 @@ On Windows 10, open the command prompt and go to the folder you want and type th
 ## Installation/Running Instruction
 - Download the files on folder "LinearRegression".
 - Open and run "PredictorProgram.py", this will produce the file "USAPopulationStart.csv"<br>
-  "USAPopDecit.csv" will contain the prediction result together with data that will be used for calculating the errors.<br>
+  "USAPopDeci.csv" will contain the prediction result together with data that will be used for calculating the errors.<br>
   ![RunAndGet](https://github.com/winstonrenatan/USAPopulationPrediction/blob/master/PicturesDocumentation/RunAndGet.gif)<br>
 - Open "USAPopDeci.csv" using the floor function manually change the new result column to obtain whole number(integer).<br>
 - Rename the file to "USAPopDeciEdit.csv" so it can be used in other program.<br>
@@ -58,7 +58,7 @@ The green one is used for the LinearRegressionError Program to calculate errors.
 While the blue label is the prediction result for year mentioned. <br>
 
 ### LinearRegressionError Program
-From the "xxx.csv" which is the final result from the Predictor Program, we should convert all the number with decimals to an integer to be processed here. With the steps mentioned at the Installation/Running Instruction point 3. We then would like to see if our prediction is close to the actual value or not and see the errors. Here is some of the data that we use. <br>
+From the "USAPopDeci.csv" which is the final result from the Predictor Program, we should convert all the number with decimals to an integer to be processed here after renaming it to "USAPopDeciEdit.csv". With the steps mentioned at the Installation/Running Instruction point 3. We then would like to see if our prediction is close to the actual value or not and see the errors. Here is some of the data that we use from the year 2013. <br>
 ![ExcelTrain](https://github.com/winstonrenatan/USAPopulationPrediction/blob/master/PicturesDocumentation/CompareLinReg.PNG)<br>
 
 Here are the code snippet that is used to determined the values:<br>
