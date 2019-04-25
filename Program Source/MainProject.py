@@ -110,10 +110,10 @@ app.layout  = html.Div(
     html.Div(
                 [
                     # Header
-                    html.H1 (children="US Public Assistant for woman and children",
+                    html.H1 (children="US Public Assistant for Woman and Children",
                              className="nine columns"),
                     html.Div(children=''' 
-                            Dash app for RO Projects
+                            Dash App for Operation Research Projects 2019
                             ''',
                              className="nine columns"
                     )
@@ -249,9 +249,9 @@ def map_selection(rows, selected_row_indices):
 def update_selected_row_indices(funcstat, State):
     map_aux = df.copy()
 
-    # Type filter
+    # FUNSTAT filter
     map_aux = map_aux[map_aux['FUNCSTAT'].isin(funcstat)]
-    # Boroughs filter
+    # STATE filter
     map_aux = map_aux[map_aux["state_id"].isin(State)]
 
     rows = map_aux.to_dict('records')
