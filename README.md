@@ -50,7 +50,34 @@ Further Explanation:<br>
 ![b0b1xi](https://latex.codecogs.com/gif.latex?%5Cbeta0&plus;%5Cbeta%201%7Bx%7Bi%7D%7D): regression coefficients and represent y-intercept and slope of regression. <br>
 
 As the population will always change, so will the coefficient and the final answer (prediction value). Of course, we would not want to process all the data manually one by one to find its predicted population for the following years. Thus, we need to use the function provided using pandas. We then need to create several columns with the equations we had above, which all useful in generating coefficients so it can predict the year we wanted. The result generated will be given in decimals.<br>
-![PredictorSnippet](https://github.com/winstonrenatan/USAPopulationPrediction/blob/master/PicturesDocumentation/PredictorSnip.PNG)<br>
+#### Predict Equation and Counting:
+```Python
+# Calculate Mean
+MeanX=2013.0    #Final and never changes
+df['meanY']=(df.iloc[:, 10:17].sum(axis=1))/7
+
+# Deviation of X never changes. (SS_XX = np.sum(x*x) - n*m_x*m_x)
+SS_XX=28.0
+# Cross Deviation of X and Y (Subtract Yi with Mean then multiple with Xi subtracted with mean)
+# Subtract Xi with mean: is absolute Year and its mean never change (2013.0)
+df['SS_XY']=((df['2010']-df['meanY'])*-3)+((df['2011']-df['meanY'])*-2)+((df['2012']-df['meanY'])*-1)+((df['2013']-df['meanY'])*0)+((df['2014']-df['meanY'])*1)+((df['2015']-df['meanY'])*2)+((df['2016']-df['meanY'])*3)
+
+# Regression Coefficients
+df['b_1']=df['SS_XY']/SS_XX
+df['b_0']=df['meanY']-df['b_1']*MeanX
+
+# Prediction for Year
+df['2013PRED']=df['b_0']+df['b_1']*2013 #Is used to count the error rate
+df['2017PRED']=df['b_0']+df['b_1']*2017
+df['2018PRED']=df['b_0']+df['b_1']*2018
+df['2019PRED']=df['b_0']+df['b_1']*2019
+df['2020PRED']=df['b_0']+df['b_1']*2020
+```
+#### Code to export the result to a csv:
+```Python
+# Save file to a csv formated file
+df.to_csv('USAPopDeci.csv')
+```
 We also would like to train and test the data, which can be acquired from the snippet below. It is also should be convert to integer and be placed in the LinearRegressionError Program to have the error value determined. The final product from this program is a csv file where we will need to convert the values to an integer that can be used for the other programs below. <br>
 ![PredictorResult](https://github.com/winstonrenatan/USAPopulationPrediction/blob/master/PicturesDocumentation/ChangeToINT.gif)<br>
 The yellow one means the things we have calculated from the equation above. <br>
@@ -58,12 +85,33 @@ The green one is used for the LinearRegressionError Program to calculate errors.
 While the blue label is the prediction result for year mentioned. <br>
 
 ### LinearRegressionError Program
-From the "USAPopDeci.csv" which is the final result from the Predictor Program, we should convert all the number with decimals to an integer to be processed here after renaming it to "USAPopDeciEdit.csv". With the steps mentioned at the Installation/Running Instruction point 3. We then would like to see if our prediction is close to the actual value or not and see the errors. Here is some of the data that we use from the year 2013. <br>
+From the "USAPopDeci.csv" which is the final result from the Predictor Program, we should convert all the number with decimals to an integer to be processed here after renaming it to "USAPopDeciEdit.csv". With the steps mentioned at the Installation/Running Instruction point 3. We then would like to see if our prediction is close to the actual value or not and see the errors. Here is some of the data that we use from the year 2013.<br>
 ![ExcelTrain](https://github.com/winstonrenatan/USAPopulationPrediction/blob/master/PicturesDocumentation/CompareLinReg.PNG)<br>
 
-Here are the code snippet that is used to determined the values:<br>
-![SnipOfLinReg](https://github.com/winstonrenatan/USAPopulationPrediction/blob/master/PicturesDocumentation/LinRegError%20Snip.PNG)<br>
+#### Import/access the dataset:
+To compare on Python, having 2013 as TRUE value while 2013PREDINT as the PREDICTION<br>
+```Python
+df = pd.read_csv('USAPopDeciEdit.csv')
+y_true=df['2013']
+y_pred=df['2013PREDINT']
+```
+
+#### Determined the values:
 Those function are used from the scikit learn to determine MAE, MSE, RMSE, R<sup>2</sup>, and Accuracy Score. While we need scipy to have the t-test result.<br>
+```Python
+# MAE
+print("MAE: {}".format(metrics.mean_absolute_error(y_true, y_pred)))
+# MSE
+print("MSE: {}".format(metrics.mean_squared_error(y_true, y_pred)))
+# RMSE
+print("RMSE: {}".format(np.sqrt(metrics.mean_squared_error(y_true, y_pred))))
+# R^2 (Coefficient of Determination) Regression Score
+print("R Squared: {}".format(metrics.r2_score(y_true, y_pred)))
+print("Accuracy Score: {}".format(metrics.accuracy_score(y_true, y_pred)))
+print("Accuracy Score Exact: {}".format(metrics.accuracy_score(y_true, y_pred, normalize=False)))
+# "Average Precision: {}" print(metrics.average_precision_score(y_true, y_pred))
+print("T-Test: {}".format(stats.ttest_ind(y_true, y_pred)))
+```
 
 MAE (Mean Absolute Error) measures the average magnitude of error in set of predictions. It’s the average over the test sample of the absolute differences between prediction and actual observation where all individual differences have equal weight.
 Here is the mathematical equation for MAE: ![MAE](https://latex.codecogs.com/gif.latex?MAE%3D%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%7Cp_%7Bi%7D-a_%7Bi%7D%29%7C%7D%7Bn%7D)<br>
@@ -129,7 +177,7 @@ layout_table['font-size'] = '12'
 layout_table['margin-top'] = '20'
 ```
 #### The code for the layout map display:
-```
+```Python
 layout_map = dict(
         title = 'USA POPULATION'+ '<br>' + \
                 'This software will display the population spreaded in the map of United States of America,which have real data from 2010-2016 while prediction from 2017-2020.'+ '<br>' + \
